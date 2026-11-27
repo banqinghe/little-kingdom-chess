@@ -3,6 +3,7 @@
 # <raw-dir> holds models2/ (image-to-3d pieces and props), props/ (scenery), rig/ (Meshy rigs) and anim/ (library
 # clips and retargeted ride motions).
 # The ponies are rigged and animated here (rig_horse.py), the siege towers get rolling wheels (split_wheels.py).
+# optimize flattens and joins nodes by default, which would merge the towers' wheels back into the body.
 # usage: art/export_models.sh <raw-dir>
 RAW="$1"
 [ -d "$RAW" ] || { echo "usage: $0 <raw-dir>"; exit 1; }
@@ -13,7 +14,7 @@ BLENDER="${BLENDER:-$HOME/Applications/Blender.app/Contents/MacOS/Blender}"
 TMP="$(mktemp -d)"
 mkdir -p "$OUT"
 export_one() {
-  (cd "$ROOT" && pnpm exec gltf-transform optimize "$1" "$OUT/$2.glb" --compress meshopt --texture-compress webp --texture-size "$3" --simplify false) \
+  (cd "$ROOT" && pnpm exec gltf-transform optimize "$1" "$OUT/$2.glb" --compress meshopt --texture-compress webp --texture-size "$3" --simplify false "${@:4}") \
     && echo "ok $2 ($3)" || echo "FAIL $2"
 }
 # the soldiers' shields and swords are made rigid (one hand bone each) so they don't bend as the soldier moves
@@ -24,7 +25,7 @@ export_one() {
 for team in light dark; do
   for p in bishop queen king rider; do export_one "$RAW/rig/${team}_$p/rigged_character.glb" "${p}_$team" 512; done
   "$BLENDER" -b --python "$ART/rig_horse.py" -- "$RAW/models2/${team}_horse/model.glb" "$TMP/horse_$team.glb" > /dev/null 2>&1 && export_one "$TMP/horse_$team.glb" "horse_$team" 512
-  "$BLENDER" -b --python "$ART/split_wheels.py" -- "$RAW/models2/${team}_tower/model.glb" "$TMP/tower_$team.glb" -90 > /dev/null 2>&1 && export_one "$TMP/tower_$team.glb" "tower_$team" 512
+  "$BLENDER" -b --python "$ART/split_wheels.py" -- "$RAW/models2/${team}_tower/model.glb" "$TMP/tower_$team.glb" -90 > /dev/null 2>&1 && export_one "$TMP/tower_$team.glb" "tower_$team" 512 --flatten false --join false
 done
 for p in staff scepter sword; do export_one "$RAW/models2/prop_$p/model.glb" "prop_$p" 256; done
 # scenery around the board
