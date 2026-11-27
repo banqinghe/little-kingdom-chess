@@ -8,7 +8,6 @@
 
 **[在线试玩](https://www.meshy.ai/3d-games/little-kingdom-chess)**
 
-![吃子](media/preview-2.webp)
 
 ## 功能
 

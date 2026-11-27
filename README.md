@@ -8,7 +8,6 @@ A 3D chess game for the browser, played on a lawn on a floating meadow island. E
 
 **[Play it online](https://www.meshy.ai/3d-games/little-kingdom-chess)**
 
-![A capture](media/preview-2.webp)
 
 ## Features
 
