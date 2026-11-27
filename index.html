@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title data-t>Little Kingdom Chess</title>
+  <style>@font-face { font-family: "LXGW WenKai"; src: url("fonts/lxgw-wenkai.woff2") format("woff2"); font-display: swap; }</style>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="loading">
+    <h1 class="logo" data-t>Little Kingdom Chess</h1>
+    <div class="load-track"><i id="load-bar"></i></div>
+    <small id="load-text" data-t>Loading…</small>
+  </div>
+
+  <div id="hud" hidden>
+    <div id="turn" class="pill"><i class="dot"></i><span id="turn-text"></span></div>
+    <div id="tools">
+      <button id="btn-undo" class="icon" title="Undo" data-t-title><svg viewBox="0 0 24 24"><path d="M9 7 4 12l5 5M4 12h11a5 5 0 0 1 0 10h-3" /></svg></button>
+      <button id="btn-flip" class="icon" title="Turn the board" data-t-title><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-14 5.3M4 12a8 8 0 0 1 14-5.3M18 3v4h-4M6 21v-4h4" /></svg></button>
+      <button id="btn-cine" class="icon" title="Close-up camera on captures" data-t-title><svg viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="10" rx="2" /><path d="m16 11 5-3v8l-5-3" /></svg></button>
+      <button id="btn-sound" class="icon" title="Sound" data-t-title><svg viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6L8 10H4Zm12-1a4 4 0 0 1 0 6m2-9a8 8 0 0 1 0 12" /></svg></button>
+      <button id="btn-music" class="icon" title="Music" data-t-title><svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12" /><circle cx="6.5" cy="18" r="2.5" /><circle cx="16.5" cy="16" r="2.5" /></svg></button>
+      <button id="btn-menu" class="icon" title="Menu" data-t-title><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></svg></button>
+    </div>
+    <div id="trays">
+      <div class="tray" id="tray-w"></div>
+      <div class="tray" id="tray-b"></div>
+    </div>
+    <div id="log" hidden>
+      <button id="log-head" title="Show or hide the moves" data-t-title><b data-t>Moves</b><span id="log-count"></span><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></svg></button>
+      <ol id="moves"></ol>
+    </div>
+  </div>
+
+  <div id="banner"><span></span></div>
+  <div id="hint" role="status"></div>
+
+  <div id="menu" class="overlay" hidden>
+    <div class="panel">
+      <h1 class="logo" data-t>Little Kingdom Chess</h1>
+      <p class="sub" data-t>A chess set that comes alive: soldiers march, knights gallop, wizards cast spells.</p>
+      <div class="group">
+        <b data-t>Opponent</b>
+        <div class="chips" id="opt-mode">
+          <button data-v="ai" data-t>Computer</button>
+          <button data-v="local" data-t>Two players</button>
+        </div>
+      </div>
+      <div class="group ai-only">
+        <b data-t>Difficulty</b>
+        <div class="chips" id="opt-level">
+          <button data-v="0" data-t>Easy</button>
+          <button data-v="1" data-t>Normal</button>
+          <button data-v="2" data-t>Hard</button>
+        </div>
+      </div>
+      <div class="group ai-only">
+        <b data-t>You play</b>
+        <div class="chips" id="opt-side">
+          <button data-v="w" data-t>Pale blue (first)</button>
+          <button data-v="b" data-t>Deep teal</button>
+          <button data-v="r" data-t>Random</button>
+        </div>
+      </div>
+      <div class="group">
+        <b data-t>Language</b>
+        <div class="chips" id="opt-lang"></div>
+      </div>
+      <div class="actions">
+        <button id="btn-resume" class="ghost" hidden data-t>Resume</button>
+        <button id="btn-start" class="primary" data-t>New game</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="promo" class="overlay" hidden>
+    <div class="panel">
+      <h2 data-t>Promote the soldier to</h2>
+      <div class="chips big" id="promo-pick">
+        <button data-v="q" data-t>Queen</button>
+        <button data-v="r" data-t>Tower</button>
+        <button data-v="b" data-t>Wizard</button>
+        <button data-v="n" data-t>Knight</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="over" class="overlay" hidden>
+    <div class="panel">
+      <h2 id="over-title"></h2>
+      <p id="over-text" class="sub"></p>
+      <div class="actions">
+        <button id="btn-review" class="ghost" data-t>Look at the board</button>
+        <button id="btn-again" class="primary" data-t>Play again</button>
+      </div>
+    </div>
+  </div>
+
+  <small id="backend"></small>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
